@@ -1,15 +1,15 @@
 from pyspark.sql import SparkSession
-
-
-def readAndProcess(spark):
-    dataFr = spark.read.options(header='True').csv(
-        "C:\\Users\\LAPTOP_MIA\\PycharmProjects\\Covid\\CovidCasesWithoutDate.txt",
-        inferSchema=True, nullValue='')
-    dataFr = dataFr.fillna({'High School Cases': 0, 'Middle School Cases': 0, 'Elementary School Cases': 0})
-    return dataFr
+from IOUtilities import IOUtilities
+from ProcessUtilities import ProcessUtilities
 
 
 spark = SparkSession.builder.appName('SparkByExamples.com').getOrCreate()
-dataFrame = readAndProcess(spark)
+IO_utility = IOUtilities()
+dataFrame = IO_utility.read_and_process(spark)
 dataFrame.printSchema()
+process_utility = ProcessUtilities()
 dataFrame.show(n=40, truncate=False)
+Processed = process_utility.get_average(dataFrame)
+Processed.show(n=40, truncate=False)
+
+IO_utility.save_dataframe(Processed)
