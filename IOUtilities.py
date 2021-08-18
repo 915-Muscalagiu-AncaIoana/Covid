@@ -3,6 +3,9 @@ import mysql.connector
 
 class IOUtilities:
     def __init__(self):
+        """
+            This function establishes the connection with the database containing the covid cases data.
+        """
         mydb = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -10,10 +13,14 @@ class IOUtilities:
             database="covid"
         )
         mycursor = mydb.cursor()
-        self.conn = mydb;
+        self.conn = mydb
         self.cursor = mycursor
 
     def __del__(self):
+        """
+            This function closes the connection with the database containing the covid cases data.
+        :return:
+        """
         self.cursor.close()
         self.conn.close()
 
